@@ -34,15 +34,20 @@ exports.serveAssets = function(res, asset, callback) {
     '.ttf': 'application/font-ttf',
     '.eot': 'application/vnd.ms-fontobject',
     '.otf': 'application/font-otf',
-    '.svg': 'application/image/svg+xml'
+    '.svg': 'application/image/svg+xml',
+    '.ico': 'image/x-icon'
   };
   var contentType = mimeTypes[extname];
   
   
-  var filepath = __dirname + '/public' + asset.url;
+  var filepath = asset.url;
   console.log('filepath', filepath);
   if (asset.url === '/') {
-    filepath += 'index.html';
+    filepath = __dirname + '/public/index.html';
+  } else if (asset.url = '/styles.css') {
+    filepath = __dirname + '/public/styles.css';
+  } else if (asset.url = '/favicon.ico') {
+    filepath = __dirname + '/public/favicon.ico';
   }
   
   fs.readFile(filepath, function(err, data) {

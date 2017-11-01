@@ -5,9 +5,7 @@ var httpHelpers = require('./http-helpers.js');
 
 exports.handleRequest = function (req, res) {
   
-  if (req.url !== '/favicon.ico') {
-    httpHelpers.serveAssets(res, req);  
-  }
+  httpHelpers.serveAssets(res, req); 
   
   
   // res.end(archive.paths.list);
