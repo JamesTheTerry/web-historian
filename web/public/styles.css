@@ -1,4 +1,6 @@
 body {
-  margin : 0px;
+  margin : 15px;
   font-family: arial, sans-serif;
+  color: white;
+  background-image: url("http://www.capoliticalreview.com/wp-content/uploads/2014/11/San-Francisco.jpg");
 }
