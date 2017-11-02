@@ -11,7 +11,6 @@ exports.headers = {
 };
 
 exports.submitURL = function(res, req) {
-  res.writeHead(302, exports.headers); // this might need to be a 302
   var body = '';
   req.on('data', (chunk) => {
     body += chunk;
@@ -24,13 +23,32 @@ exports.submitURL = function(res, req) {
       // console.log('inList', inList);
       if (!inList) {
         archive.addUrlToList(body);
-        res.write('We couldnt find sht');
+        
+        var headers = exports.headers;
+        headers['Location'] = '/loading.html';
+        res.writeHead(302, exports.headers);
+        res.end();
+        
+      } else {
+        
+        archive.isUrlArchived(body, function(inArchive) {
+          if (inArchive) {
+            var headers = exports.headers;
+            headers['Location'] = '/' + body;
+            res.writeHead(302, exports.headers);
+            res.end();
+          } else {
+            var headers = exports.headers;
+            headers['Location'] = '/loading.html';
+            res.writeHead(302, exports.headers);
+            res.end();
+          }
+        });
       }
     });
   });
   
-  // 
-  res.end();
+  
 };
 
 exports.serveAssets = function(res, asset, callback) {
@@ -62,23 +80,30 @@ exports.serveAssets = function(res, asset, callback) {
   };
   var contentType = mimeTypes[extname];
   
-  
+  console.log(asset.url);
   var filepath = asset.url;
-  // console.log('filepath', filepath);
+
   if (asset.url === '/') {
     filepath = __dirname + '/public/index.html';
-  } else if (asset.url = '/styles.css') {
+  } else if (asset.url === '/styles.css') {
     filepath = __dirname + '/public/styles.css';
-  } else if (asset.url = '/favicon.ico') {
+  } else if (asset.url === '/favicon.ico') {
     filepath = __dirname + '/public/favicon.ico';
+  } else if (asset.url === '/loading.html') {
+    filepath = __dirname + '/public/loading.html';
+  } else {
+    console.log('what the hell');
+    console.log(asset.url);
+    contentType = mimeTypes['.html'];
+    filepath = archive.paths.archivedSites + asset.url;
+    console.log(filepath);
   }
   
   fs.readFile(filepath, function(err, data) {
     if (err) { console.log(err); }
     headers['Content-Type'] = contentType;
     res.writeHead(200, headers);
-    res.write(data);
-    res.end(); // if we put something in the end() its basically writing it
+    res.end(data); // if we put something in the end() its basically writing it
   });
   
 };

@@ -4,7 +4,7 @@ var archive = require('../helpers/archive-helpers.js');
 
 var CronJob = require('cron').CronJob;
 
-new CronJob('* * * * * *', function() {
+new CronJob('* * * * *', function() {
   console.log('Cron Job Every Minute');
   archive.readListOfUrls(archive.downloadUrls);
 }, null, true, 'America/Los_Angeles');

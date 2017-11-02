@@ -5,7 +5,7 @@ var httpHelpers = require('./http-helpers.js');
 
 exports.handleRequest = function (req, res) {
   
-  if (req.method === 'GET' && (req.url === '/' || req.url === '/styles.css' || req.url === '/favicon.ico')) {
+  if (req.method === 'GET') {
     httpHelpers.serveAssets(res, req); 
   } else if (req.method === 'POST') {
     httpHelpers.submitURL(res, req);
