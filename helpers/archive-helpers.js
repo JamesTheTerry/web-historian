@@ -27,10 +27,21 @@ exports.initialize = function(pathsObj) {
 
 // reads the list (duh)
 exports.readListOfUrls = function(callback) {
+  fs.readFile(exports.paths.list, 'utf8', function (err, data) {
+    if (err) { console.log(err); }
+    var theList = data.split('\n');
+    return callback(theList);
+  });
 };
 
 // uses readList to check if url is in the list
 exports.isUrlInList = function(url, callback) {
+  exports.readListOfUrls(function(siteList) {
+    console.log('url', url);
+    console.log('siteList', siteList);
+    console.log('includes?', siteList.includes(url));
+    callback(siteList.includes(url));
+  });
 };
 
 // gets called by isUrlInList if it isnt in the list, so we can add it... to the list
