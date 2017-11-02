@@ -10,6 +10,19 @@ exports.headers = {
   'Content-Type': 'text/html'
 };
 
+exports.submitURL = function(res, req) {
+  res.writeHead(200, exports.headers);
+  var body = '';
+  req.on('data', (chunk) => {
+    body += chunk;
+  });
+  req.on('end', () => {
+    body = body.slice(4);
+    console.log('Body: ', body);
+  });
+  res.end();
+};
+
 exports.serveAssets = function(res, asset, callback) {
   // Write some code here that helps serve up your static files!
   // (Static files are things like html (yours or archived from others...),
