@@ -72,11 +72,7 @@ exports.downloadUrls = function(urls) {
       return;
     }
     console.log('We need to download: ', url);
-    // fs.writeFileSync(exports.paths.archivedSites + '/' + url);
     https.get({host: url}, function(res) {
-      // if (err) {
-      //   console.log(err);
-      // }
       var body = '';
       res.on('data', (chunk) => {
         body += chunk;
