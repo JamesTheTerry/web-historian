@@ -1,6 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 var _ = require('underscore');
+var http = require('http');
+var https = require('https');
 
 /*
  * You will need to reuse the same paths many times over in the course of this sprint.
@@ -37,9 +39,9 @@ exports.readListOfUrls = function(callback) {
 // uses readList to check if url is in the list
 exports.isUrlInList = function(url, callback) {
   exports.readListOfUrls(function(siteList) {
-    console.log('url', url);
-    console.log('siteList', siteList);
-    console.log('includes?', siteList.includes(url));
+    // console.log('url', url);
+    // console.log('siteList', siteList);
+    // console.log('includes?', siteList.includes(url));
     callback(siteList.includes(url));
   });
 };
@@ -52,10 +54,61 @@ exports.addUrlToList = function(url, callback) {
 };
 
 
-exports.isUrlArchived = function(url, callback) {
+exports.isUrlArchived = function(url, callback) {  
+  fs.readdir(exports.paths.archivedSites, (err, files) => {
+    // console.log(files); // this is an array of the files in there
+    // console.log('IS THE URL THERE?', files.includes(url));
+    callback(files.includes(url), url);
+  });
+  
 };
 
 exports.downloadUrls = function(urls) {
-  console.log('Downloading the websites');
-  console.log('Urls to download', urls);
+  // console.log('Downloading the websites');
+  // console.log('Urls to download', urls);
+  
+  var actuallyDownload = function(alreadyDownloaded, url) {
+    if (alreadyDownloaded) {
+      return;
+    }
+    console.log('We need to download: ', url);
+    // fs.writeFileSync(exports.paths.archivedSites + '/' + url);
+    https.get({host: url}, function(res) {
+      // if (err) {
+      //   console.log(err);
+      // }
+      var body = '';
+      res.on('data', (chunk) => {
+        body += chunk;
+      });
+      res.on('end', () => {
+        // console.log('Body: ', body);
+        fs.writeFile(exports.paths.archivedSites + '/' + url, body, (err) => {
+          if (err) {
+            throw err;
+          }
+          console.log('The file has been saved!');
+        });
+      });
+    });
+  };
+  
+  urls.forEach((url) => {
+    exports.isUrlArchived(url, actuallyDownload);
+  });
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// swag

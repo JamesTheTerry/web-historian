@@ -21,7 +21,7 @@ exports.submitURL = function(res, req) {
     console.log('Body: ', body);
     
     archive.isUrlInList(body, function(inList) {
-      console.log('inList', inList);
+      // console.log('inList', inList);
       if (!inList) {
         archive.addUrlToList(body);
       }
@@ -63,7 +63,7 @@ exports.serveAssets = function(res, asset, callback) {
   
   
   var filepath = asset.url;
-  console.log('filepath', filepath);
+  // console.log('filepath', filepath);
   if (asset.url === '/') {
     filepath = __dirname + '/public/index.html';
   } else if (asset.url = '/styles.css') {
