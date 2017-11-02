@@ -9,9 +9,13 @@ exports.handleRequest = function (req, res) {
     httpHelpers.serveAssets(res, req); 
   } else if (req.method === 'POST') {
     // archive.readListOfUrls();
-    archive.isUrlInList('www.google.com', function(x) {
-      console.log(x);
-    });
+    // archive.isUrlInList('www.james-terry.com', function(x) {
+    //   console.log(x);
+    //   if (!x) {
+    //     archive.addUrlToList('www.james-terry.com');
+    //   }
+    // });
+    
     
     httpHelpers.submitURL(res, req);
   } else {

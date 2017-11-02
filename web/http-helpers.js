@@ -11,7 +11,7 @@ exports.headers = {
 };
 
 exports.submitURL = function(res, req) {
-  res.writeHead(200, exports.headers);
+  res.writeHead(200, exports.headers); // this might need to be a 302
   var body = '';
   req.on('data', (chunk) => {
     body += chunk;
@@ -19,6 +19,13 @@ exports.submitURL = function(res, req) {
   req.on('end', () => {
     body = body.slice(4);
     console.log('Body: ', body);
+    
+    archive.isUrlInList(body, function(inList) {
+      console.log('inList', inList);
+      if (!inList) {
+        archive.addUrlToList(body);
+      }
+    });
   });
   
   // 
