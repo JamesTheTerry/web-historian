@@ -8,7 +8,6 @@ exports.handleRequest = function (req, res) {
   if (req.method === 'GET' && (req.url === '/' || req.url === '/styles.css' || req.url === '/favicon.ico')) {
     httpHelpers.serveAssets(res, req); 
   } else if (req.method === 'POST') {
-    // console.log('POST', req);
     httpHelpers.submitURL(res, req);
   } else {
     res.writeHead(404, httpHelpers.headers);

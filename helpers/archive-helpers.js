@@ -25,14 +25,18 @@ exports.initialize = function(pathsObj) {
 // The following function names are provided to you to suggest how you might
 // modularize your code. Keep it clean!
 
+// reads the list (duh)
 exports.readListOfUrls = function(callback) {
 };
 
+// uses readList to check if url is in the list
 exports.isUrlInList = function(url, callback) {
 };
 
+// gets called by isUrlInList if it isnt in the list, so we can add it... to the list
 exports.addUrlToList = function(url, callback) {
 };
+
 
 exports.isUrlArchived = function(url, callback) {
 };
