@@ -29,8 +29,8 @@ exports.initialize = function(pathsObj) {
 exports.readListOfUrls = function(callback) {
   fs.readFile(exports.paths.list, 'utf8', function (err, data) {
     if (err) { console.log(err); }
-    var theList = data.split('\n');
-    return callback(theList);
+    var listOfUrls = data.split('\n');
+    return callback(listOfUrls);
   });
 };
 
@@ -56,4 +56,6 @@ exports.isUrlArchived = function(url, callback) {
 };
 
 exports.downloadUrls = function(urls) {
+  console.log('Downloading the websites');
+  console.log('Urls to download', urls);
 };
